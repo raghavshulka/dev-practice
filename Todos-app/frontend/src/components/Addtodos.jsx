@@ -14,16 +14,11 @@ const AddTodos = ({ onClose, onAddTodo }) => {
     const { name, value } = e.target;
     setTodo((prev) => ({ ...prev, [name]: value }));
   };
-  console.log(setTodo);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post(`/new`, todo, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.post("/new", todo);
       console.log(response.data);
       onAddTodo(todo);
       onClose();

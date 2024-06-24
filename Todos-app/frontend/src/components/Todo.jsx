@@ -13,7 +13,7 @@ const Todo = () => {
 
   const fetchTodos = () => {
     axiosInstance
-      .get("/api/v1/get")
+      .get("/get")
       .then((res) => {
         setTodos(res.data.todos);
       })
