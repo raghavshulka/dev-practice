@@ -1,6 +1,6 @@
 import express from "express";
-import { db } from "./utils.js/mongoconnect.js";
-import mainRoutes from "./routes/mainRoutes.js";
+import { db } from "../utils.js/mongoconnect.js";
+import mainRoutes from "../routes/mainRoutes.js";
 import { config } from "dotenv";
 import cors from "cors"
 
@@ -19,7 +19,12 @@ app.use(cors())
 app.use(express.json());
 app.use("/api/v1", mainRoutes);
 
+app.get('/', (req, res) => {
+    res.json("working");
+  });
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+
+export default app;

@@ -2,7 +2,7 @@ import { TodosModel } from "../model/todoSchema.js";
 
 export const todos = async (req, res) => {
   try {
-    const { title, todos } = req.body;
+    const { title, todos, status, priority } = req.body;
 
     if (!title || !todos) {
       return res.status(400).json({
@@ -14,11 +14,14 @@ export const todos = async (req, res) => {
     const todo = await TodosModel.create({
       title,
       todos,
+      status: status || "start",
+      priority: priority || "low",
     });
 
     return res.status(200).json({
       success: true,
       message: `Todo created: ${todo.title}`,
+      data: todo,
     });
   } catch (err) {
     console.error(err);
@@ -57,7 +60,7 @@ export const delTodos = async (req, res) => {
 export const updateTodos = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, todos } = req.body;
+    const { title, todos, status, priority } = req.body;
 
     if (!id) {
       return res.status(400).json({
@@ -76,7 +79,11 @@ export const updateTodos = async (req, res) => {
     }
 
     if (title) updatedTodo.title = title;
-    if (todos) updateTodos.todos = todos;
+    if (todos) updatedTodo.todos = todos;
+    if (status && ["completed", "start"].includes(status))
+      updatedTodo.status = status;
+    if (priority && ["low", "high"].includes(priority))
+      updatedTodo.priority = priority;
 
     await updatedTodo.save();
 
@@ -97,18 +104,18 @@ export const updateTodos = async (req, res) => {
 
 export const getTodos = async (req, res) => {
   try {
-    const todo = await TodosModel.find();
+    const todos = await TodosModel.find();
 
     return res.status(200).json({
       success: true,
-      message: `Todo find `,
-      todo,
+      message: "Todos found",
+      todos,
     });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
       success: false,
-      message: "Todo found failed",
+      message: "Failed to find todos",
     });
   }
 };
