@@ -1,0 +1,4 @@
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=password_nextauth
+GOOGLE_ID=your_code
+GOOGLE_SECRET=your_code_secret
